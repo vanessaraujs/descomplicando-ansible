@@ -1,0 +1,30 @@
+---
+- hosts: all
+  become: yes
+  remote_user: root
+  gather_facts: no
+  pre_tasks:
+    - name: 'Atualizando repo'
+      raw: 'apt update'
+    - name: 'Instalando Python'
+      raw: 'apt install -y python'
+  roles:
+  - install-k8s
+
+- hosts: k8s-master
+  become: yes
+  user: root
+  roles:
+  - create-cluster
+   
+- hosts: k8s-workers
+  become: yes
+  user: root
+  roles:
+  - join-workers
+
+- hosts: k8s-master
+  become: yes
+  user: root
+  roles:
+  - install-helm

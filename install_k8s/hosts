@@ -1,0 +1,6 @@
+[k8s-workers]
+server01
+server02
+
+[k8s-master]
+robot
